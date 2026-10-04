@@ -287,9 +287,9 @@ img { max-width: 100%; }
   </div>
 
   <header class="hero">
-    <img class="avatar" src="photo.jpg" width="128" height="128" alt="Андрей Ёрш · Andrew Yersh">
+    <img class="avatar" src="photo.jpg" width="128" height="128" alt="Андрей Ёрш · Andrei Yersh">
     <div>
-      <h1 class="name"><span lang="ru">Андрей Ёрш</span><span lang="en">Andrew Yersh</span></h1>
+      <h1 class="name"><span lang="ru">Андрей Ёрш</span><span lang="en">Andrei Yersh</span></h1>
       <p class="role">
         <span lang="ru">Студент МФТИ, разработчик ПО</span>
         <span lang="en">MIPT student, software engineer</span>
@@ -497,7 +497,7 @@ img { max-width: 100%; }
   </div>
 
   <footer class="footer">
-    <span><span lang="ru">Андрей Ёрш</span><span lang="en">Andrew Yersh</span> · 2026</span>
+    <span><span lang="ru">Андрей Ёрш</span><span lang="en">Andrei Yersh</span> · 2026</span>
     <a href="https://t.me/YershAndrew" target="_blank" rel="noopener"><span lang="ru">Написать в Telegram</span><span lang="en">Message on Telegram</span></a>
   </footer>
 </div>
@@ -505,9 +505,8 @@ img { max-width: 100%; }
 <script>
 (function () {
   var page = document.querySelector('.page');
-  var KEY = 'yersh-site-lang';
   var status = document.getElementById('copy-status');
-  var titles = { ru: 'Андрей Ёрш', en: 'Andrew Yersh' };
+  var titles = { ru: 'Андрей Ёрш', en: 'Andrei Yersh' };
 
   function setLang(lang) {
     page.setAttribute('data-lang', lang);
@@ -519,18 +518,10 @@ img { max-width: 100%; }
     document.querySelectorAll('.copy').forEach(function (b) {
       b.setAttribute('aria-label', b.getAttribute('data-label-' + lang));
     });
-    try { localStorage.setItem(KEY, lang); } catch (e) {}
   }
 
-  var initial = 'ru';
-  try {
-    var saved = localStorage.getItem(KEY);
-    if (saved === 'ru' || saved === 'en') initial = saved;
-    else if (!/^(ru|uk|be|kk)/i.test(navigator.language || 'ru')) initial = 'en';
-  } catch (e) {
-    if (!/^(ru|uk|be|kk)/i.test(navigator.language || 'ru')) initial = 'en';
-  }
-  setLang(initial);
+  // Сайт всегда открывается на русском; английский включается кнопкой EN.
+  setLang('ru');
 
   document.querySelectorAll('[data-set-lang]').forEach(function (b) {
     b.addEventListener('click', function () { setLang(b.getAttribute('data-set-lang')); });
