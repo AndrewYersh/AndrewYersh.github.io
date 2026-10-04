@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Андрей Ёрш</title>
+<meta name="description" content="Андрей Ёрш — студент МФТИ, разработчик ПО: Python, C/C++, обработка сигналов. Контакты, опыт, проекты.">
+<meta property="og:title" content="Андрей Ёрш">
+<meta property="og:description" content="Студент МФТИ, разработчик ПО: Python, C/C++, обработка сигналов.">
+<meta property="og:type" content="profile">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230E6B74'/%3E%3Cpath d='M4 16c2-10 4-10 6 0s4 8 6 0 3-5 4 0 3 3 4 0 2-1 4 0' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Literata:opsz,wght@7..72,500;7..72,600&display=swap">
+<style>
+/* Layout: одна узкая колонка; подписи разделов стоят в левом поле на широком экране и над содержимым на телефоне. */
+:root {
+  --bg: #F5F7F7;
+  --fg: #141A1C;
+  --muted: #5A676D;
+  --line: #DAE2E4;
+  --accent: #0E6B74;
+  --accent-soft: #E0EEEF;
+  --font-display: "Literata", Georgia, "Times New Roman", serif;
+  --font-body: "Golos Text", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1416;
+    --fg: #E3E9EB;
+    --muted: #93A1A7;
+    --line: #263135;
+    --accent: #5EC2CB;
+    --accent-soft: #15292C;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1416;
+  --fg: #E3E9EB;
+  --muted: #93A1A7;
+  --line: #263135;
+  --accent: #5EC2CB;
+  --accent-soft: #15292C;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration-color: var(--line); text-underline-offset: 3px; }
+a:hover { color: var(--accent); text-decoration-color: currentColor; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+img { max-width: 100%; }
+
+.page[data-lang="ru"] [lang="en"],
+.page[data-lang="en"] [lang="ru"] { display: none !important; }
+
+.page {
+  max-width: 820px;
+  margin: 0 auto;
+  padding-inline: 20px;
+  padding-block: 28px 48px;
+}
+
+/* верхняя строка */
+.bar { display: flex; justify-content: flex-end; }
+.lang {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+}
+.lang button {
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  padding: 7px 11px;
+  cursor: pointer;
+}
+.lang button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.lang button:not([aria-pressed="true"]):hover { color: var(--fg); }
+
+/* шапка */
+.hero {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 28px;
+  align-items: center;
+  padding-block: 20px 8px;
+}
+.avatar {
+  display: block;
+  width: 128px;
+  height: 128px;
+  border-radius: 26px;
+  object-fit: cover;
+  background: var(--accent-soft);
+}
+.name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 1.6rem + 2.6vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin: 0 0 10px;
+  text-wrap: balance;
+}
+.role { margin: 0; font-size: 1.125rem; color: var(--fg); }
+.stack { margin: 2px 0 0; color: var(--muted); }
+
+/* контакты */
+.contacts {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 32px;
+}
+.contact { min-width: 0; display: grid; gap: 2px; }
+.label {
+  font: 500 11.5px/1.4 var(--font-mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.value-row { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.value-row a {
+  font-size: 1.0625rem;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+.copy {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.copy:hover { color: var(--accent); border-color: var(--line); }
+.copy svg { width: 16px; height: 16px; }
+.copy .i-check { display: none; }
+.copy.is-done { color: var(--accent); }
+.copy.is-done .i-copy { display: none; }
+.copy.is-done .i-check { display: block; }
+
+/* сигнал e(n) */
+.trace { margin: 32px 0 24px; color: var(--accent); }
+.trace svg { display: block; width: 100%; height: 48px; overflow: visible; }
+.trace path { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; }
+
+/* ряд Фурье ступенчатого сигнала, 10 слагаемых */
+.fourier { margin: 8px 0 36px; padding-top: 36px; border-top: 1px solid var(--line); }
+.fourier svg { display: block; width: 100%; height: 72px; overflow: visible; }
+.fourier path { fill: none; stroke-linejoin: round; }
+.fourier .ideal { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 4; opacity: 0.7; }
+.fourier .sum { stroke: var(--accent); stroke-width: 1.5; }
+
+/* разделы */
+.block {
+  display: grid;
+  grid-template-columns: 148px minmax(0, 1fr);
+  gap: 10px 32px;
+  padding-block: 30px;
+  border-top: 1px solid var(--line);
+}
+.block:first-of-type { border-top: 0; }
+.block-title {
+  margin: 0;
+  padding-top: 4px;
+  font: 500 12px/1.4 var(--font-mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.block-body { min-width: 0; display: grid; gap: 28px; }
+.prose { display: grid; gap: 12px; max-width: 64ch; }
+.prose p { margin: 0; }
+
+.entry { display: grid; gap: 6px; }
+.entry-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2px 16px;
+}
+.entry-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.3rem;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+.entry-dates {
+  font: 400 13px/1.5 var(--font-mono);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.entry-role { margin: 0; color: var(--muted); }
+.entry-text { margin: 0; max-width: 64ch; }
+
+.bullets {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  max-width: 64ch;
+}
+.bullets li { position: relative; padding-left: 20px; }
+.bullets li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+
+.tags {
+  margin: 6px 0 0;
+  font: 400 13px/1.6 var(--font-mono);
+  color: var(--accent);
+}
+
+
+.skills { margin: 0; display: grid; gap: 12px; }
+.skill { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 2px 16px; }
+.skill dt { color: var(--muted); }
+.skill dd { margin: 0; }
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .page { padding-inline: 16px; padding-block: 16px 40px; }
+  .hero { grid-template-columns: 1fr; gap: 18px; padding-top: 8px; }
+  .avatar { width: 96px; height: 96px; border-radius: 20px; }
+  .contacts { grid-template-columns: 1fr; gap: 14px; }
+  .block { grid-template-columns: 1fr; padding-block: 26px; }
+  .skill { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a, .copy, .lang button { transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease; }
+}
+</style>
+</head>
+<body>
+<div class="page" data-lang="ru">
+
+  <div class="bar">
+    <div class="lang" role="group" aria-label="Язык / Language">
+      <button type="button" id="lang-ru" data-set-lang="ru" aria-pressed="true">RU</button>
+      <button type="button" id="lang-en" data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+
+  <header class="hero">
+    <img class="avatar" src="photo.jpg" width="128" height="128" alt="Андрей Ёрш · Andrew Yersh">
+    <div>
+      <h1 class="name"><span lang="ru">Андрей Ёрш</span><span lang="en">Andrew Yersh</span></h1>
+      <p class="role">
+        <span lang="ru">Студент МФТИ, разработчик ПО</span>
+        <span lang="en">MIPT student, software engineer</span>
+      </p>
+      <p class="stack">
+        <span lang="ru">Python · C/C++ · обработка сигналов и данных</span>
+        <span lang="en">Python · C/C++ · signal and data processing</span>
+      </p>
+    </div>
+  </header>
+
+  <ul class="contacts">
+    <li class="contact">
+      <span class="label"><span lang="ru">Телефон</span><span lang="en">Phone</span></span>
+      <span class="value-row">
+        <a id="c-phone" href="tel:+79778619059">+7 977 861-90-59</a>
+        <button type="button" class="copy" id="copy-phone" data-copy="+79778619059" data-target="c-phone" data-label-ru="Скопировать телефон" data-label-en="Copy phone number" aria-label="Скопировать телефон">
+          <svg class="i-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M10.5 3.5v-.5A1.5 1.5 0 0 0 9 1.5H4A1.5 1.5 0 0 0 2.5 3v5A1.5 1.5 0 0 0 4 9.5h.5"/></svg>
+          <svg class="i-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"/></svg>
+        </button>
+      </span>
+    </li>
+    <li class="contact">
+      <span class="label">Email</span>
+      <span class="value-row">
+        <a id="c-email" href="mailto:yershandrew@gmail.com">yershandrew@gmail.com</a>
+        <button type="button" class="copy" id="copy-email" data-copy="yershandrew@gmail.com" data-target="c-email" data-label-ru="Скопировать email" data-label-en="Copy email" aria-label="Скопировать email">
+          <svg class="i-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M10.5 3.5v-.5A1.5 1.5 0 0 0 9 1.5H4A1.5 1.5 0 0 0 2.5 3v5A1.5 1.5 0 0 0 4 9.5h.5"/></svg>
+          <svg class="i-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"/></svg>
+        </button>
+      </span>
+    </li>
+    <li class="contact">
+      <span class="label">Telegram</span>
+      <span class="value-row"><a href="https://t.me/YershAndrew" target="_blank" rel="noopener">@YershAndrew</a></span>
+    </li>
+    <li class="contact">
+      <span class="label">GitHub</span>
+      <span class="value-row"><a href="https://github.com/AndrewYersh" target="_blank" rel="noopener">github.com/AndrewYersh</a></span>
+    </li>
+  </ul>
+  <span class="sr" id="copy-status" aria-live="polite"></span>
+
+  <div class="trace" aria-hidden="true">
+    <svg viewBox="0 0 800 56" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 23.0 L2 15.4 L4 19.2 L6 23.6 L8 25.6 L10 21.2 L12 16.7 L14 24.6 L16 33.3 L18 40.4 L20 37.2 L22 29.9 L24 31.6 L26 26.6 L28 25.7 L30 21.4 L32 21.4 L34 21.5 L36 24.9 L38 33.1 L40 38.4 L42 39.6 L44 34.2 L46 34.0 L48 33.4 L50 34.2 L52 34.3 L54 20.8 L56 12.6 L58 8.4 L60 17.4 L62 27.3 L64 31.6 L66 30.8 L68 28.3 L70 31.2 L72 38.0 L74 42.0 L76 37.4 L78 24.6 L80 21.3 L82 19.9 L84 22.0 L86 28.0 L88 25.7 L90 20.9 L92 29.7 L94 35.6 L96 40.3 L98 41.4 L100 33.9 L102 28.2 L104 29.0 L106 26.4 L108 24.8 L110 20.4 L112 15.1 L114 16.4 L116 22.7 L118 33.2 L120 35.0 L122 35.4 L124 32.9 L126 33.5 L128 34.8 L130 34.4 L132 27.3 L134 26.1 L136 24.1 L138 23.0 L140 24.2 L142 27.9 L144 33.2 L146 35.9 L148 33.1 L150 35.5 L152 38.2 L154 33.7 L156 26.8 L158 22.1 L160 20.3 L162 21.8 L164 22.4 L166 23.7 L168 23.5 L170 24.1 L172 30.6 L174 32.2 L176 32.9 L178 30.8 L180 30.3 L182 27.5 L184 25.2 L186 28.7 L188 27.7 L190 23.7 L192 24.7 L194 23.8 L196 27.8 L198 32.2 L200 32.6 L202 30.0 L204 28.2 L206 26.6 L208 28.7 L210 28.6 L212 24.5 L214 22.1 L216 23.1 L218 24.3 L220 26.5 L222 29.9 L224 31.6 L226 30.5 L228 30.7 L230 32.0 L232 30.3 L234 29.7 L236 24.6 L238 24.1 L240 25.0 L242 26.0 L244 26.4 L246 26.2 L248 26.2 L250 27.5 L252 30.0 L254 31.5 L256 31.6 L258 28.8 L260 25.6 L262 24.9 L264 24.9 L266 25.5 L268 23.7 L270 23.6 L272 25.1 L274 27.9 L276 30.7 L278 31.2 L280 30.9 L282 28.7 L284 26.0 L286 29.0 L288 29.6 L290 27.8 L292 25.4 L294 24.2 L296 25.6 L298 27.4 L300 29.5 L302 30.5 L304 27.8 L306 27.7 L308 29.0 L310 29.7 L312 29.3 L314 27.3 L316 27.3 L318 26.2 L320 26.1 L322 28.6 L324 29.1 L326 28.0 L328 27.5 L330 27.7 L332 30.8 L334 31.2 L336 30.0 L338 27.3 L340 25.2 L342 27.2 L344 26.8 L346 28.2 L348 27.0 L350 27.7 L352 28.0 L354 28.8 L356 30.5 L358 30.4 L360 28.7 L362 27.4 L364 27.1 L366 26.5 L368 26.3 L370 26.2 L372 23.9 L374 25.4 L376 26.5 L378 28.7 L380 29.7 L382 29.1 L384 28.4 L386 28.0 L388 29.3 L390 29.9 L392 28.2 L394 27.2 L396 26.5 L398 27.3 L400 27.5 L402 28.2 L404 27.8 L406 28.4 L408 28.5 L410 29.8 L412 29.7 L414 28.6 L416 28.0 L418 25.9 L420 25.3 L422 26.3 L424 28.0 L426 27.4 L428 27.3 L430 27.8 L432 28.4 L434 29.4 L436 29.3 L438 29.3 L440 27.6 L442 26.4 L444 26.1 L446 26.9 L448 27.3 L450 26.4 L452 26.3 L454 26.9 L456 27.7 L458 29.1 L460 30.3 L462 29.5 L464 29.4 L466 28.5 L468 28.4 L470 28.4 L472 27.4 L474 26.2 L476 26.2 L478 26.6 L480 27.9 L482 28.2 L484 27.8 L486 27.4 L488 28.2 L490 28.5 L492 29.4 L494 28.9 L496 28.3 L498 26.8 L500 27.3 L502 27.7 L504 28.1 L506 28.1 L508 28.1 L510 28.2 L512 28.3 L514 29.1 L516 28.9 L518 27.9 L520 27.3 L522 27.4 L524 27.7 L526 27.4 L528 27.8 L530 27.6 L532 27.2 L534 27.7 L536 28.7 L538 29.0 L540 28.8 L542 28.6 L544 28.5 L546 28.5 L548 28.1 L550 27.9 L552 27.4 L554 27.2 L556 27.8 L558 28.4 L560 29.2 L562 29.0 L564 29.3 L566 28.7 L568 28.9 L570 29.4 L572 28.7 L574 27.9 L576 27.7 L578 27.5 L580 27.6 L582 28.2 L584 28.1 L586 27.9 L588 27.8 L590 28.2 L592 28.4 L594 28.6 L596 28.2 L598 28.1 L600 27.2 L602 26.9 L604 27.4 L606 27.7 L608 27.1 L610 27.7 L612 27.8 L614 27.9 L616 28.9 L618 28.8 L620 27.9 L622 27.6 L624 27.5 L626 27.5 L628 27.8 L630 27.5 L632 27.1 L634 27.0 L636 27.6 L638 28.4 L640 29.0 L642 28.8 L644 28.3 L646 28.2 L648 28.5 L650 28.6 L652 27.5 L654 26.9 L656 26.6 L658 27.5 L660 27.8 L662 28.1 L664 27.9 L666 27.9 L668 28.1 L670 28.3 L672 29.0 L674 28.5 L676 27.9 L678 27.5 L680 27.0 L682 27.0 L684 27.7 L686 27.9 L688 27.8 L690 27.8 L692 28.3 L694 28.9 L696 28.6 L698 28.2 L700 28.1 L702 28.0 L704 27.5 L706 27.5 L708 27.2 L710 27.0 L712 27.2 L714 27.5 L716 28.5 L718 29.0 L720 28.9 L722 28.5 L724 28.3 L726 28.2 L728 28.2 L730 28.0 L732 27.5 L734 27.1 L736 27.2 L738 27.5 L740 28.0 L742 28.5 L744 28.5 L746 28.3 L748 28.4 L750 28.5 L752 28.5 L754 28.1 L756 27.6 L758 27.5 L760 27.4 L762 27.5 L764 27.8 L766 27.9 L768 27.8 L770 28.2 L772 28.8 L774 29.0 L776 28.9 L778 28.2 L780 27.9 L782 28.1 L784 28.2 L786 27.8 L788 27.8 L790 27.8 L792 27.9 L794 28.1 L796 28.5 L798 28.7 L800 28.3"/></svg>
+  </div>
+
+  <main>
+    <section class="block" id="about">
+      <h2 class="block-title"><span lang="ru">О себе</span><span lang="en">About</span></h2>
+      <div class="block-body">
+        <div class="prose" lang="ru">
+          <p>Учусь на третьем курсе бакалавриата МФТИ, в Физтех-школе прикладной математики и информатики. Меня интересуют разработка программного обеспечения и анализ данных, и я с удовольствием берусь за технически сложные задачи. Целеустремлён и быстро адаптируюсь к новым задачам и материалам.</p>
+          <p>У меня есть бронзовая медаль Международной олимпиады по физике (IPhO 2024). Подготовка к ней укрепила аналитическое мышление и научила структурно подходить к решению задач. Сейчас ищу стажировку или позицию младшего специалиста, где смогу развивать навыки в Python и обработке данных, участвуя в реальных проектах.</p>
+        </div>
+        <div class="prose" lang="en">
+          <p>I’m a third-year bachelor’s student at the Moscow Institute of Physics and Technology (MIPT), Phystech School of Applied Mathematics and Computer Science. I’m interested in software development and data analysis, and I enjoy technically challenging problems. I’m driven and quick to pick up new tasks and material.</p>
+          <p>I won a bronze medal at the International Physics Olympiad (IPhO 2024). Preparing for it sharpened my analytical thinking and taught me to approach problems in a structured way. I’m looking for an internship or a junior position where I can keep growing in Python and data processing while working on real projects.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="experience">
+      <h2 class="block-title"><span lang="ru">Опыт</span><span lang="en">Experience</span></h2>
+      <div class="block-body">
+        <article class="entry">
+          <div class="entry-head">
+            <h3 class="entry-title">Huawei</h3>
+            <span class="entry-dates">07.2026 — 09.2026 · <span lang="ru">3 мес.</span><span lang="en">3 mo</span></span>
+          </div>
+          <p class="entry-role">Junior Software Engineer</p>
+          <ul class="bullets" lang="ru">
+            <li>Разбор статей по преобразованию акустических путей и сжатию сохраняемой полезной информации</li>
+            <li>Симуляции алгоритмов из статей на реальных записях: анализ ограничений и сходимости, проверка модификаций и дизайнов для улучшения результата</li>
+            <li>Участие в проекте по сбору и анализу биометрических данных с наушников и их применению для авторизации</li>
+            <li>Приложения для удобной пакетной обработки записанных датасетов</li>
+          </ul>
+          <ul class="bullets" lang="en">
+            <li>Reviewed papers on acoustic path transformation and compression of the useful information to be stored</li>
+            <li>Simulated algorithms from the papers on real recordings: examined limitations and convergence, tested modifications and designs to improve results</li>
+            <li>Took part in a project on collecting and analyzing biometric data from headphones for user authentication</li>
+            <li>Built applications for convenient batch processing of recorded datasets</li>
+          </ul>
+        </article>
+
+        <article class="entry">
+          <div class="entry-head">
+            <h3 class="entry-title">Huawei</h3>
+            <span class="entry-dates">07.2025 — 09.2025 · <span lang="ru">3 мес.</span><span lang="en">3 mo</span></span>
+          </div>
+          <p class="entry-role">Junior Software Engineer</p>
+          <ul class="bullets" lang="ru">
+            <li>Разработка UI для удобного тестирования оборудования на стенде</li>
+            <li>Проверка гипотез и анализ моделей на имеющихся датасетах</li>
+            <li>Перевод проекта на C/C++ со сборки Visual Studio на CMake</li>
+          </ul>
+          <ul class="bullets" lang="en">
+            <li>Built a UI for convenient hardware testing on the test bench</li>
+            <li>Tested hypotheses and analyzed models on existing datasets</li>
+            <li>Migrated a C/C++ project from Visual Studio builds to CMake</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="block" id="projects">
+      <h2 class="block-title"><span lang="ru">Проекты</span><span lang="en">Projects</span></h2>
+      <div class="block-body">
+        <article class="entry">
+          <div class="entry-head">
+            <h3 class="entry-title"><span lang="ru">Активное шумоподавление (ANC)</span><span lang="en">Active noise control (ANC)</span></h3>
+          </div>
+          <p class="entry-text">
+            <span lang="ru">Система активного шумоподавления на Python по записанным аудиоданным.</span>
+            <span lang="en">An active noise control system in Python built on recorded audio data.</span>
+          </p>
+          <ul class="bullets" lang="ru">
+            <li>Оценка импульсных характеристик первичного и вторичного акустических путей</li>
+            <li>Адаптивные фильтры Винера–Хопфа, NLMS и FxLMS, анализ сходимости и устойчивости</li>
+          </ul>
+          <ul class="bullets" lang="en">
+            <li>Estimated impulse responses of the primary and secondary acoustic paths</li>
+            <li>Wiener–Hopf, NLMS and FxLMS adaptive filters with convergence and stability analysis</li>
+          </ul>
+          <p class="tags">Python · DSP · NLMS · FxLMS</p>
+        </article>
+
+        <article class="entry">
+          <div class="entry-head">
+            <h3 class="entry-title"><span lang="ru">Онлайн-определение акустических путей в наушниках</span><span lang="en">Online acoustic path identification in headphones</span></h3>
+          </div>
+          <p class="entry-text">
+            <span lang="ru">Оценка акустических путей наушников в реальном времени, прямо во время работы системы.</span>
+            <span lang="en">Real-time estimation of headphone acoustic paths while the system is running.</span>
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="block" id="education">
+      <h2 class="block-title"><span lang="ru">Образование</span><span lang="en">Education</span></h2>
+      <div class="block-body">
+        <article class="entry">
+          <div class="entry-head">
+            <h3 class="entry-title"><span lang="ru">МФТИ</span><span lang="en">MIPT</span></h3>
+            <span class="entry-dates"><span lang="ru">2024 — н. в.</span><span lang="en">2024 — present</span></span>
+          </div>
+          <p class="entry-role">
+            <span lang="ru">Московский физико-технический институт · Физтех-школа прикладной математики и информатики · бакалавриат, 3 курс</span>
+            <span lang="en">Moscow Institute of Physics and Technology · Phystech School of Applied Mathematics and Computer Science · BSc, 3rd year</span>
+          </p>
+        </article>
+        <article class="entry">
+          <div class="entry-head">
+            <h3 class="entry-title"><span lang="ru">Бронзовая медаль IPhO</span><span lang="en">IPhO bronze medal</span></h3>
+            <span class="entry-dates">2024</span>
+          </div>
+          <p class="entry-role">
+            <span lang="ru">Международная олимпиада по физике</span>
+            <span lang="en">International Physics Olympiad</span>
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="block" id="skills">
+      <h2 class="block-title"><span lang="ru">Навыки</span><span lang="en">Skills</span></h2>
+      <div class="block-body">
+        <dl class="skills">
+          <div class="skill">
+            <dt><span lang="ru">Языки</span><span lang="en">Languages</span></dt>
+            <dd>Python, C++, C, SQL</dd>
+          </div>
+          <div class="skill">
+            <dt><span lang="ru">Данные и сигналы</span><span lang="en">Data &amp; signals</span></dt>
+            <dd><span lang="ru">PyTorch, построение статистических моделей, анализ данных, адаптивная фильтрация</span><span lang="en">PyTorch, statistical modeling, data analysis, adaptive filtering</span></dd>
+          </div>
+          <div class="skill">
+            <dt><span lang="ru">Сборка и CI</span><span lang="en">Build &amp; CI</span></dt>
+            <dd>CMake, Git, CI/CD, Docker</dd>
+          </div>
+          <div class="skill">
+            <dt><span lang="ru">Окружение</span><span lang="en">Environment</span></dt>
+            <dd>Linux, Bash</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="block" id="interests">
+      <h2 class="block-title"><span lang="ru">Увлечения</span><span lang="en">Interests</span></h2>
+      <div class="block-body">
+        <p class="entry-text">
+          <span lang="ru">Спорт, компьютерные игры, долгие прогулки и походы.</span>
+          <span lang="en">Sports, video games, long walks and hiking.</span>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <div class="fourier" aria-hidden="true">
+    <svg viewBox="0 0 800 72" preserveAspectRatio="none">
+      <path class="ideal" vector-effect="non-scaling-stroke" d="M0 36 V11 H200 V61 H400 V11 H600 V61 H800 V36"/>
+      <path class="sum" vector-effect="non-scaling-stroke" d="M0 36.00 L1 31.03 L2 26.22 L3 21.72 L4 17.67 L5 14.18 L6 11.32 L7 9.13 L8 7.63 L9 6.77 L10 6.50 L11 6.74 L12 7.37 L13 8.27 L14 9.32 L15 10.41 L16 11.43 L17 12.30 L18 12.95 L19 13.34 L20 13.47 L21 13.35 L22 13.01 L23 12.50 L24 11.89 L25 11.23 L26 10.60 L27 10.05 L28 9.63 L29 9.37 L30 9.28 L31 9.37 L32 9.60 L33 9.96 L34 10.40 L35 10.88 L36 11.35 L37 11.76 L38 12.07 L39 12.27 L40 12.34 L41 12.27 L42 12.09 L43 11.80 L44 11.45 L45 11.07 L46 10.69 L47 10.36 L48 10.10 L49 9.94 L50 9.88 L51 9.94 L52 10.09 L53 10.33 L54 10.63 L55 10.96 L56 11.28 L57 11.56 L58 11.79 L59 11.93 L60 11.98 L61 11.93 L62 11.79 L63 11.58 L64 11.32 L65 11.03 L66 10.74 L67 10.48 L68 10.28 L69 10.15 L70 10.11 L71 10.15 L72 10.28 L73 10.47 L74 10.72 L75 10.98 L76 11.25 L77 11.49 L78 11.67 L79 11.79 L80 11.83 L81 11.79 L82 11.68 L83 11.49 L84 11.26 L85 11.01 L86 10.76 L87 10.53 L88 10.35 L89 10.24 L90 10.20 L91 10.24 L92 10.35 L93 10.53 L94 10.75 L95 11.00 L96 11.24 L97 11.47 L98 11.64 L99 11.75 L100 11.79 L101 11.75 L102 11.64 L103 11.47 L104 11.24 L105 11.00 L106 10.75 L107 10.53 L108 10.35 L109 10.24 L110 10.20 L111 10.24 L112 10.35 L113 10.53 L114 10.76 L115 11.01 L116 11.26 L117 11.49 L118 11.68 L119 11.79 L120 11.83 L121 11.79 L122 11.67 L123 11.49 L124 11.25 L125 10.98 L126 10.72 L127 10.47 L128 10.28 L129 10.15 L130 10.11 L131 10.15 L132 10.28 L133 10.48 L134 10.74 L135 11.03 L136 11.32 L137 11.58 L138 11.79 L139 11.93 L140 11.98 L141 11.93 L142 11.79 L143 11.56 L144 11.28 L145 10.96 L146 10.63 L147 10.33 L148 10.09 L149 9.94 L150 9.88 L151 9.94 L152 10.10 L153 10.36 L154 10.69 L155 11.07 L156 11.45 L157 11.80 L158 12.09 L159 12.27 L160 12.34 L161 12.27 L162 12.07 L163 11.76 L164 11.35 L165 10.88 L166 10.40 L167 9.96 L168 9.60 L169 9.37 L170 9.28 L171 9.37 L172 9.63 L173 10.05 L174 10.60 L175 11.23 L176 11.89 L177 12.50 L178 13.01 L179 13.35 L180 13.47 L181 13.34 L182 12.95 L183 12.30 L184 11.43 L185 10.41 L186 9.32 L187 8.27 L188 7.37 L189 6.74 L190 6.50 L191 6.77 L192 7.63 L193 9.13 L194 11.32 L195 14.18 L196 17.67 L197 21.72 L198 26.22 L199 31.03 L200 36.00 L201 40.97 L202 45.78 L203 50.28 L204 54.33 L205 57.82 L206 60.68 L207 62.87 L208 64.37 L209 65.23 L210 65.50 L211 65.26 L212 64.63 L213 63.73 L214 62.68 L215 61.59 L216 60.57 L217 59.70 L218 59.05 L219 58.66 L220 58.53 L221 58.65 L222 58.99 L223 59.50 L224 60.11 L225 60.77 L226 61.40 L227 61.95 L228 62.37 L229 62.63 L230 62.72 L231 62.63 L232 62.40 L233 62.04 L234 61.60 L235 61.12 L236 60.65 L237 60.24 L238 59.93 L239 59.73 L240 59.66 L241 59.73 L242 59.91 L243 60.20 L244 60.55 L245 60.93 L246 61.31 L247 61.64 L248 61.90 L249 62.06 L250 62.12 L251 62.06 L252 61.91 L253 61.67 L254 61.37 L255 61.04 L256 60.72 L257 60.44 L258 60.21 L259 60.07 L260 60.02 L261 60.07 L262 60.21 L263 60.42 L264 60.68 L265 60.97 L266 61.26 L267 61.52 L268 61.72 L269 61.85 L270 61.89 L271 61.85 L272 61.72 L273 61.53 L274 61.28 L275 61.02 L276 60.75 L277 60.51 L278 60.33 L279 60.21 L280 60.17 L281 60.21 L282 60.32 L283 60.51 L284 60.74 L285 60.99 L286 61.24 L287 61.47 L288 61.65 L289 61.76 L290 61.80 L291 61.76 L292 61.65 L293 61.47 L294 61.25 L295 61.00 L296 60.76 L297 60.53 L298 60.36 L299 60.25 L300 60.21 L301 60.25 L302 60.36 L303 60.53 L304 60.76 L305 61.00 L306 61.25 L307 61.47 L308 61.65 L309 61.76 L310 61.80 L311 61.76 L312 61.65 L313 61.47 L314 61.24 L315 60.99 L316 60.74 L317 60.51 L318 60.32 L319 60.21 L320 60.17 L321 60.21 L322 60.33 L323 60.51 L324 60.75 L325 61.02 L326 61.28 L327 61.53 L328 61.72 L329 61.85 L330 61.89 L331 61.85 L332 61.72 L333 61.52 L334 61.26 L335 60.97 L336 60.68 L337 60.42 L338 60.21 L339 60.07 L340 60.02 L341 60.07 L342 60.21 L343 60.44 L344 60.72 L345 61.04 L346 61.37 L347 61.67 L348 61.91 L349 62.06 L350 62.12 L351 62.06 L352 61.90 L353 61.64 L354 61.31 L355 60.93 L356 60.55 L357 60.20 L358 59.91 L359 59.73 L360 59.66 L361 59.73 L362 59.93 L363 60.24 L364 60.65 L365 61.12 L366 61.60 L367 62.04 L368 62.40 L369 62.63 L370 62.72 L371 62.63 L372 62.37 L373 61.95 L374 61.40 L375 60.77 L376 60.11 L377 59.50 L378 58.99 L379 58.65 L380 58.53 L381 58.66 L382 59.05 L383 59.70 L384 60.57 L385 61.59 L386 62.68 L387 63.73 L388 64.63 L389 65.26 L390 65.50 L391 65.23 L392 64.37 L393 62.87 L394 60.68 L395 57.82 L396 54.33 L397 50.28 L398 45.78 L399 40.97 L400 36.00 L401 31.03 L402 26.22 L403 21.72 L404 17.67 L405 14.18 L406 11.32 L407 9.13 L408 7.63 L409 6.77 L410 6.50 L411 6.74 L412 7.37 L413 8.27 L414 9.32 L415 10.41 L416 11.43 L417 12.30 L418 12.95 L419 13.34 L420 13.47 L421 13.35 L422 13.01 L423 12.50 L424 11.89 L425 11.23 L426 10.60 L427 10.05 L428 9.63 L429 9.37 L430 9.28 L431 9.37 L432 9.60 L433 9.96 L434 10.40 L435 10.88 L436 11.35 L437 11.76 L438 12.07 L439 12.27 L440 12.34 L441 12.27 L442 12.09 L443 11.80 L444 11.45 L445 11.07 L446 10.69 L447 10.36 L448 10.10 L449 9.94 L450 9.88 L451 9.94 L452 10.09 L453 10.33 L454 10.63 L455 10.96 L456 11.28 L457 11.56 L458 11.79 L459 11.93 L460 11.98 L461 11.93 L462 11.79 L463 11.58 L464 11.32 L465 11.03 L466 10.74 L467 10.48 L468 10.28 L469 10.15 L470 10.11 L471 10.15 L472 10.28 L473 10.47 L474 10.72 L475 10.98 L476 11.25 L477 11.49 L478 11.67 L479 11.79 L480 11.83 L481 11.79 L482 11.68 L483 11.49 L484 11.26 L485 11.01 L486 10.76 L487 10.53 L488 10.35 L489 10.24 L490 10.20 L491 10.24 L492 10.35 L493 10.53 L494 10.75 L495 11.00 L496 11.24 L497 11.47 L498 11.64 L499 11.75 L500 11.79 L501 11.75 L502 11.64 L503 11.47 L504 11.24 L505 11.00 L506 10.75 L507 10.53 L508 10.35 L509 10.24 L510 10.20 L511 10.24 L512 10.35 L513 10.53 L514 10.76 L515 11.01 L516 11.26 L517 11.49 L518 11.68 L519 11.79 L520 11.83 L521 11.79 L522 11.67 L523 11.49 L524 11.25 L525 10.98 L526 10.72 L527 10.47 L528 10.28 L529 10.15 L530 10.11 L531 10.15 L532 10.28 L533 10.48 L534 10.74 L535 11.03 L536 11.32 L537 11.58 L538 11.79 L539 11.93 L540 11.98 L541 11.93 L542 11.79 L543 11.56 L544 11.28 L545 10.96 L546 10.63 L547 10.33 L548 10.09 L549 9.94 L550 9.88 L551 9.94 L552 10.10 L553 10.36 L554 10.69 L555 11.07 L556 11.45 L557 11.80 L558 12.09 L559 12.27 L560 12.34 L561 12.27 L562 12.07 L563 11.76 L564 11.35 L565 10.88 L566 10.40 L567 9.96 L568 9.60 L569 9.37 L570 9.28 L571 9.37 L572 9.63 L573 10.05 L574 10.60 L575 11.23 L576 11.89 L577 12.50 L578 13.01 L579 13.35 L580 13.47 L581 13.34 L582 12.95 L583 12.30 L584 11.43 L585 10.41 L586 9.32 L587 8.27 L588 7.37 L589 6.74 L590 6.50 L591 6.77 L592 7.63 L593 9.13 L594 11.32 L595 14.18 L596 17.67 L597 21.72 L598 26.22 L599 31.03 L600 36.00 L601 40.97 L602 45.78 L603 50.28 L604 54.33 L605 57.82 L606 60.68 L607 62.87 L608 64.37 L609 65.23 L610 65.50 L611 65.26 L612 64.63 L613 63.73 L614 62.68 L615 61.59 L616 60.57 L617 59.70 L618 59.05 L619 58.66 L620 58.53 L621 58.65 L622 58.99 L623 59.50 L624 60.11 L625 60.77 L626 61.40 L627 61.95 L628 62.37 L629 62.63 L630 62.72 L631 62.63 L632 62.40 L633 62.04 L634 61.60 L635 61.12 L636 60.65 L637 60.24 L638 59.93 L639 59.73 L640 59.66 L641 59.73 L642 59.91 L643 60.20 L644 60.55 L645 60.93 L646 61.31 L647 61.64 L648 61.90 L649 62.06 L650 62.12 L651 62.06 L652 61.91 L653 61.67 L654 61.37 L655 61.04 L656 60.72 L657 60.44 L658 60.21 L659 60.07 L660 60.02 L661 60.07 L662 60.21 L663 60.42 L664 60.68 L665 60.97 L666 61.26 L667 61.52 L668 61.72 L669 61.85 L670 61.89 L671 61.85 L672 61.72 L673 61.53 L674 61.28 L675 61.02 L676 60.75 L677 60.51 L678 60.33 L679 60.21 L680 60.17 L681 60.21 L682 60.32 L683 60.51 L684 60.74 L685 60.99 L686 61.24 L687 61.47 L688 61.65 L689 61.76 L690 61.80 L691 61.76 L692 61.65 L693 61.47 L694 61.25 L695 61.00 L696 60.76 L697 60.53 L698 60.36 L699 60.25 L700 60.21 L701 60.25 L702 60.36 L703 60.53 L704 60.76 L705 61.00 L706 61.25 L707 61.47 L708 61.65 L709 61.76 L710 61.80 L711 61.76 L712 61.65 L713 61.47 L714 61.24 L715 60.99 L716 60.74 L717 60.51 L718 60.32 L719 60.21 L720 60.17 L721 60.21 L722 60.33 L723 60.51 L724 60.75 L725 61.02 L726 61.28 L727 61.53 L728 61.72 L729 61.85 L730 61.89 L731 61.85 L732 61.72 L733 61.52 L734 61.26 L735 60.97 L736 60.68 L737 60.42 L738 60.21 L739 60.07 L740 60.02 L741 60.07 L742 60.21 L743 60.44 L744 60.72 L745 61.04 L746 61.37 L747 61.67 L748 61.91 L749 62.06 L750 62.12 L751 62.06 L752 61.90 L753 61.64 L754 61.31 L755 60.93 L756 60.55 L757 60.20 L758 59.91 L759 59.73 L760 59.66 L761 59.73 L762 59.93 L763 60.24 L764 60.65 L765 61.12 L766 61.60 L767 62.04 L768 62.40 L769 62.63 L770 62.72 L771 62.63 L772 62.37 L773 61.95 L774 61.40 L775 60.77 L776 60.11 L777 59.50 L778 58.99 L779 58.65 L780 58.53 L781 58.66 L782 59.05 L783 59.70 L784 60.57 L785 61.59 L786 62.68 L787 63.73 L788 64.63 L789 65.26 L790 65.50 L791 65.23 L792 64.37 L793 62.87 L794 60.68 L795 57.82 L796 54.33 L797 50.28 L798 45.78 L799 40.97 L800 36.00"/>
+    </svg>
+  </div>
+
+  <footer class="footer">
+    <span><span lang="ru">Андрей Ёрш</span><span lang="en">Andrew Yersh</span> · 2026</span>
+    <a href="https://t.me/YershAndrew" target="_blank" rel="noopener"><span lang="ru">Написать в Telegram</span><span lang="en">Message on Telegram</span></a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var page = document.querySelector('.page');
+  var KEY = 'yersh-site-lang';
+  var status = document.getElementById('copy-status');
+  var titles = { ru: 'Андрей Ёрш', en: 'Andrew Yersh' };
+
+  function setLang(lang) {
+    page.setAttribute('data-lang', lang);
+    document.documentElement.lang = lang;
+    document.title = titles[lang];
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.setAttribute('aria-label', b.getAttribute('data-label-' + lang));
+    });
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+  }
+
+  var initial = 'ru';
+  try {
+    var saved = localStorage.getItem(KEY);
+    if (saved === 'ru' || saved === 'en') initial = saved;
+    else if (!/^(ru|uk|be|kk)/i.test(navigator.language || 'ru')) initial = 'en';
+  } catch (e) {
+    if (!/^(ru|uk|be|kk)/i.test(navigator.language || 'ru')) initial = 'en';
+  }
+  setLang(initial);
+
+  document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+    b.addEventListener('click', function () { setLang(b.getAttribute('data-set-lang')); });
+  });
+
+  function selectText(el) {
+    try {
+      var range = document.createRange();
+      range.selectNodeContents(el);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    } catch (e) {}
+  }
+
+  document.querySelectorAll('.copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = btn.getAttribute('data-copy');
+      var target = document.getElementById(btn.getAttribute('data-target'));
+      var lang = page.getAttribute('data-lang');
+      function done() {
+        btn.classList.add('is-done');
+        status.textContent = lang === 'en' ? 'Copied' : 'Скопировано';
+        setTimeout(function () { btn.classList.remove('is-done'); status.textContent = ''; }, 1600);
+      }
+      function fallback() {
+        selectText(target);
+        status.textContent = lang === 'en' ? 'Selected, press Ctrl+C' : 'Выделено, нажмите Ctrl+C';
+      }
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, fallback);
+        } else { fallback(); }
+      } catch (e) { fallback(); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
